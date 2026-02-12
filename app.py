@@ -171,8 +171,17 @@ input_df = pd.DataFrame([input_data])
 
 if st.button("Segregate Inputs"):
 
-    xgb_input = input_df[XGB_FEATURES]
-    lr_input = input_df[LR_FEATURES]
+    xgb_input = input_df[XGB_FEATURES].copy()
+    lr_input = input_df[LR_FEATURES].copy()
+
+    # Convert boolean columns to True/False text
+    for col in xgb_input.columns:
+        if xgb_input[col].dtype == bool:
+            xgb_input[col] = xgb_input[col].astype(str)
+
+    for col in lr_input.columns:
+        if lr_input[col].dtype == bool:
+            lr_input[col] = lr_input[col].astype(str)
 
     col1, col2 = st.columns(2)
 
@@ -183,3 +192,4 @@ if st.button("Segregate Inputs"):
     with col2:
         st.subheader("LR Model Input")
         st.dataframe(lr_input)
+
