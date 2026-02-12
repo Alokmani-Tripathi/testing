@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="Credit Risk Input App", layout="wide")
-
 st.title("Credit Risk Input Interface")
 st.markdown("### Applicant Risk Profiling Form")
 
@@ -30,13 +29,12 @@ LR_FEATURES = [
 ]
 
 # =====================================================
-# SIDEBAR INPUT PANEL (VERTICAL STACK)
+# SIDEBAR INPUT PANEL (VERTICAL + ALL UMBRELLAS)
 # =====================================================
 
 with st.sidebar:
 
-    st.header("Loan Details")
-
+    st.header("🏦 Loan Details")
     loan_amnt = st.number_input("Loan Amount", value=10000.0)
     term = st.selectbox("Term (Months)", [36, 60])
     int_rate = st.number_input("Interest Rate (%)", value=12.0)
@@ -54,8 +52,7 @@ with st.sidebar:
 
     st.divider()
 
-    st.header("Employment & Income")
-
+    st.header("👤 Employment & Income")
     emp_length = st.number_input("Employment Length (Years)", value=5)
     annual_inc = st.number_input("Annual Income", value=60000.0)
     verification_status = st.selectbox(
@@ -65,8 +62,7 @@ with st.sidebar:
 
     st.divider()
 
-    st.header("Housing")
-
+    st.header("🏠 Housing Profile")
     home_ownership = st.selectbox(
         "Home Ownership",
         ["RENT","OWN","MORTGAGE","OTHER"]
@@ -75,32 +71,42 @@ with st.sidebar:
 
     st.divider()
 
-    st.header("Credit Profile")
-
+    st.header("📊 Credit Score & Age")
     fico = st.number_input("FICO Score", value=700)
     credit_age = st.number_input("Credit Age (Months)", value=120)
-    dti = st.number_input("Debt To Income Ratio", value=15.0)
 
+    st.divider()
+
+    st.header("📉 Credit Utilization")
     revol_util = st.number_input("Revolving Utilization (%)", value=30.0)
     bc_util = st.number_input("BC Utilization (%)", value=40.0)
     percent_bc_gt_75 = st.number_input("Percent BC > 75%", value=10.0)
-
     revol_bal = st.number_input("Revolving Balance", value=5000.0)
     total_bc_limit = st.number_input("Total BC Limit", value=20000.0)
     avg_cur_bal = st.number_input("Average Current Balance", value=10000.0)
     tot_cur_bal = st.number_input("Total Current Balance", value=50000.0)
     bc_open_to_buy = st.number_input("BC Open To Buy", value=10000.0)
 
+    st.divider()
+
+    st.header("📈 Credit Behavior")
     inq_last_6mths = st.number_input("Inquiries Last 6 Months", value=1)
     acc_open_past_24mths = st.number_input("Accounts Open Past 24 Months", value=2)
-
     num_actv_bc_tl = st.number_input("Active BC TL", value=3)
     num_actv_rev_tl = st.number_input("Active Rev TL", value=4)
 
+    st.divider()
+
+    st.header("⏳ Account Vintage")
     mo_sin_old_rev_tl_op = st.number_input("Months Since Oldest Rev TL", value=120)
     mo_sin_rcnt_tl = st.number_input("Months Since Recent TL", value=6)
     mths_since_recent_bc = st.number_input("Months Since Recent BC", value=5)
     mths_since_recent_inq = st.number_input("Months Since Recent Inquiry", value=2)
+
+    st.divider()
+
+    st.header("💰 Risk Ratios")
+    dti = st.number_input("Debt To Income Ratio", value=15.0)
 
     generate_btn = st.button("Generate Model Inputs")
 
@@ -159,7 +165,7 @@ input_data = {
 input_df = pd.DataFrame([input_data])
 
 # =====================================================
-# OUTPUT SECTION (RIGHT SIDE CLEAN)
+# OUTPUT AREA
 # =====================================================
 
 if generate_btn:
@@ -172,12 +178,13 @@ if generate_btn:
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("XGB Model Input")
+        st.subheader("XGB Model Input (Order Preserved)")
         st.dataframe(xgb_input.astype(str), use_container_width=True)
 
     with col2:
-        st.subheader("LR Model Input")
+        st.subheader("LR Model Input (Order Preserved)")
         st.dataframe(lr_input.astype(str), use_container_width=True)
+
 
 
 
