@@ -215,8 +215,59 @@ st.title("Credit Risk Input Interface")
 # ORIGINAL MODEL FEATURE ORDER (DO NOT CHANGE)
 # =====================================================
 
-XGB_FEATURES = [ ... ]   # keep your exact list
-LR_FEATURES = [ ... ]    # keep your exact list
+#XGB_FEATURES = [ ... ]   # keep your exact list
+XGB_FEATURES = [
+    'grade',
+    'sub_grade',
+    'term',
+    'int_rate',
+    'acc_open_past_24mths',
+    'avg_cur_bal',
+    'home_ownership_MORTGAGE',
+    'dti',
+    'fico',
+    'home_ownership_RENT',
+    'mort_acc',
+    'annual_inc',
+    'emp_length',
+    'purpose_small_business',
+    'loan_amnt',
+    'verification_status_Source Verified',
+    'tot_cur_bal',
+    'mths_since_recent_bc',
+    'num_actv_rev_tl',
+    'mths_since_recent_inq',
+    'total_bc_limit',
+    'inq_last_6mths',
+    'mo_sin_old_rev_tl_op',
+    'mo_sin_rcnt_tl',
+    'bc_open_to_buy',
+    'num_actv_bc_tl',
+    'revol_bal'
+]
+
+#LR_FEATURES = [ ... ]    # keep your exact list
+LR_FEATURES = [
+    'emp_length',
+    'home_ownership',
+    'purpose',
+    'term',
+    'verification_status',
+    'credit_age',
+    'int_rate',
+    'loan_amnt',
+    'fico',
+    'annual_inc',
+    'inq_last_6mths',
+    'dti',
+    'revol_util',
+    'bc_util',
+    'percent_bc_gt_75',
+    'acc_open_past_24mths',
+    'mo_sin_rcnt_tl',
+    'mths_since_recent_inq'
+]
+
 
 # =====================================================
 # UI SECTIONING (FRONTEND ONLY)
@@ -347,6 +398,10 @@ input_data = locals()  # safe here because names match exactly
 
 input_df = pd.DataFrame([{k: input_data[k] for k in input_data
                           if k not in ["st", "pd"]}])
+
+
+
+st.write("Available Columns:", list(input_df.columns))
 
 # =====================================================
 # SEGREGATION (ORDER PRESERVED)
