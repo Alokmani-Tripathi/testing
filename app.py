@@ -212,10 +212,9 @@ st.set_page_config(page_title="Credit Risk Input App", layout="wide")
 st.title("Credit Risk Input Interface")
 
 # =====================================================
-# ORIGINAL MODEL FEATURE ORDER (DO NOT CHANGE)
+# MODEL FEATURE ORDER (DO NOT CHANGE)
 # =====================================================
 
-#XGB_FEATURES = [ ... ]   # keep your exact list
 XGB_FEATURES = [
     'grade',
     'sub_grade',
@@ -246,7 +245,6 @@ XGB_FEATURES = [
     'revol_bal'
 ]
 
-#LR_FEATURES = [ ... ]    # keep your exact list
 LR_FEATURES = [
     'emp_length',
     'home_ownership',
@@ -268,9 +266,8 @@ LR_FEATURES = [
     'mths_since_recent_inq'
 ]
 
-
 # =====================================================
-# UI SECTIONING (FRONTEND ONLY)
+# UI INPUTS
 # =====================================================
 
 st.header("🏦 Loan Details")
@@ -285,17 +282,18 @@ with col2:
     grade = st.selectbox("Grade", ["A","B","C","D","E","F","G"])
 
 with col3:
-    sub_grade = st.selectbox("Sub Grade", ["A1","A2","A3","A4","A5",
-                                           "B1","B2","B3","B4","B5",
-                                           "C1","C2","C3","C4","C5"])
+    sub_grade = st.selectbox("Sub Grade",
+        ["A1","A2","A3","A4","A5",
+         "B1","B2","B3","B4","B5",
+         "C1","C2","C3","C4","C5"]
+    )
     purpose = st.selectbox("Purpose",
-                            ["credit_card","debt_consolidation",
-                             "home_improvement","major_purchase",
-                             "small_business","other"])
-
+        ["credit_card","debt_consolidation",
+         "home_improvement","major_purchase",
+         "small_business","other"]
+    )
 
 st.header("👤 Employment & Income")
-
 col1, col2 = st.columns(2)
 
 with col1:
@@ -304,25 +302,21 @@ with col1:
 
 with col2:
     verification_status = st.selectbox("Verification Status",
-                                        ["Verified",
-                                         "Source Verified",
-                                         "Not Verified"])
-
+        ["Verified","Source Verified","Not Verified"]
+    )
 
 st.header("🏠 Housing Profile")
-
 col1, col2 = st.columns(2)
 
 with col1:
     home_ownership = st.selectbox("Home Ownership",
-                                   ["RENT","OWN","MORTGAGE","OTHER"])
+        ["RENT","OWN","MORTGAGE","OTHER"]
+    )
 
 with col2:
     mort_acc = st.number_input("Mortgage Accounts", value=1)
 
-
 st.header("📊 Credit Score & Age")
-
 col1, col2 = st.columns(2)
 
 with col1:
@@ -331,9 +325,7 @@ with col1:
 with col2:
     credit_age = st.number_input("Credit Age (Months)", value=120)
 
-
 st.header("📉 Credit Utilization")
-
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -350,9 +342,7 @@ with col3:
     tot_cur_bal = st.number_input("Total Current Balance", value=50000.0)
     bc_open_to_buy = st.number_input("BC Open To Buy", value=10000.0)
 
-
 st.header("📈 Credit Behavior")
-
 col1, col2 = st.columns(2)
 
 with col1:
@@ -363,9 +353,7 @@ with col2:
     num_actv_bc_tl = st.number_input("Active BC TL", value=3)
     num_actv_rev_tl = st.number_input("Active Rev TL", value=4)
 
-
 st.header("⏳ Account Vintage")
-
 col1, col2 = st.columns(2)
 
 with col1:
@@ -376,9 +364,7 @@ with col2:
     mths_since_recent_bc = st.number_input("Months Since Recent BC", value=5)
     mths_since_recent_inq = st.number_input("Months Since Recent Inquiry", value=2)
 
-
 st.header("💰 Risk Ratios")
-
 dti = st.number_input("Debt To Income Ratio", value=15.0)
 
 # =====================================================
@@ -387,21 +373,54 @@ dti = st.number_input("Debt To Income Ratio", value=15.0)
 
 home_ownership_MORTGAGE = home_ownership == "MORTGAGE"
 home_ownership_RENT = home_ownership == "RENT"
-verification_status_Source_Verified = verification_status == "Source Verified"
 purpose_small_business = purpose == "small_business"
 
+verification_status_source_verified_bool = (
+    verification_status == "Source Verified"
+)
+
 # =====================================================
-# BUILD MASTER INPUT
+# BUILD CLEAN MASTER INPUT (NO LOCALS)
 # =====================================================
 
-input_data = locals()  # safe here because names match exactly
+input_data = {
+    "grade": grade,
+    "sub_grade": sub_grade,
+    "term": term,
+    "int_rate": int_rate,
+    "loan_amnt": loan_amnt,
+    "annual_inc": annual_inc,
+    "dti": dti,
+    "fico": fico,
+    "emp_length": emp_length,
+    "mort_acc": mort_acc,
+    "home_ownership": home_ownership,
+    "verification_status": verification_status,
+    "purpose": purpose,
+    "credit_age": credit_age,
+    "revol_util": revol_util,
+    "bc_util": bc_util,
+    "percent_bc_gt_75": percent_bc_gt_75,
+    "acc_open_past_24mths": acc_open_past_24mths,
+    "avg_cur_bal": avg_cur_bal,
+    "tot_cur_bal": tot_cur_bal,
+    "total_bc_limit": total_bc_limit,
+    "revol_bal": revol_bal,
+    "inq_last_6mths": inq_last_6mths,
+    "mths_since_recent_bc": mths_since_recent_bc,
+    "mths_since_recent_inq": mths_since_recent_inq,
+    "mo_sin_old_rev_tl_op": mo_sin_old_rev_tl_op,
+    "mo_sin_rcnt_tl": mo_sin_rcnt_tl,
+    "num_actv_bc_tl": num_actv_bc_tl,
+    "num_actv_rev_tl": num_actv_rev_tl,
+    "bc_open_to_buy": bc_open_to_buy,
+    "home_ownership_MORTGAGE": home_ownership_MORTGAGE,
+    "home_ownership_RENT": home_ownership_RENT,
+    "purpose_small_business": purpose_small_business,
+    "verification_status_Source Verified": verification_status_source_verified_bool
+}
 
-input_df = pd.DataFrame([{k: input_data[k] for k in input_data
-                          if k not in ["st", "pd"]}])
-
-
-
-#st.write("Available Columns:", list(input_df.columns))
+input_df = pd.DataFrame([input_data])
 
 # =====================================================
 # SEGREGATION (ORDER PRESERVED)
@@ -415,10 +434,9 @@ if st.button("Generate Model Inputs"):
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("XGB Model Input (Original Order Preserved)")
+        st.subheader("XGB Model Input (Order Preserved)")
         st.dataframe(xgb_input.astype(str))
 
     with col2:
-        st.subheader("LR Model Input (Original Order Preserved)")
+        st.subheader("LR Model Input (Order Preserved)")
         st.dataframe(lr_input.astype(str))
-
