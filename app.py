@@ -401,7 +401,7 @@ input_df = pd.DataFrame([{k: input_data[k] for k in input_data
 
 
 
-st.write("Available Columns:", list(input_df.columns))
+#st.write("Available Columns:", list(input_df.columns))
 
 # =====================================================
 # SEGREGATION (ORDER PRESERVED)
