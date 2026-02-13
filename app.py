@@ -397,6 +397,10 @@ if generate_btn:
         woe_dict = transform_to_woe(input_data)
         lr_woe_df = pd.DataFrame([woe_dict])[LR_FEATURES]
 
+        st.write("WOE Dtypes:")
+        st.write(lr_woe_df.dtypes)
+
+
         col1, col2, col3 = st.columns(3)
 
         with col1:
