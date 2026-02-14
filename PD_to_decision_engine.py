@@ -244,19 +244,19 @@ class PDDecisionEngine:
 
     def evaluate(self, pd_percent: float, model_name: str = None) -> dict:
 
-    self._validate_pd(pd_percent)
+        self._validate_pd(pd_percent)
 
-    score = self._pd_to_score(pd_percent)
-    rating = self._score_to_band(score)
-    decision = self.DECISION_MAP[rating]
+        score = self._pd_to_score(pd_percent)
+        rating = self._score_to_band(score)
+        decision = self.DECISION_MAP[rating]
 
-    return {
-        "model": model_name,
-        "pd_percent": round(pd_percent, 4),
-        "credit_score": int(score),
-        "rating_band": rating,
-        "decision": decision
-    }
+        return {
+          "model": model_name,
+          "pd_percent": round(pd_percent, 4),
+          "credit_score": int(score),
+          "rating_band": rating,
+          "decision": decision
+        }
 
     # ==========================================================
     # 8️⃣ OPTIONAL: DATAFRAME FORMAT (If Needed)
