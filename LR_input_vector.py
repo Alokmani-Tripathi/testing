@@ -567,7 +567,15 @@ class LRInputVector:
         woe["purpose"] = self.WOE_DICT["purpose_group"].get(raw["purpose"], -0.082874)
 
         # term
-        woe["term"] = self.WOE_DICT["term"][f"{raw['term']} months"]
+        #woe["term"] = self.WOE_DICT["term"][f"{raw['term']} months"]
+
+        term_value = int(raw["term"])
+
+        if term_value not in (36, 60):
+           raise ValueError("term must be 36 or 60.")
+
+        woe["term"] = WOE_DICT["term"][f"{term_value} months"]
+
 
         # verification_status
         woe["verification_status"] = self.WOE_DICT["verification_status"][raw["verification_status"]]
