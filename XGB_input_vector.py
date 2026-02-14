@@ -96,7 +96,7 @@ class XGBInputVector:
     # MAIN TRANSFORM
     # =====================================================
 
-    def transform(self, raw: dict) -> pd.DataFrame:
+    def build(self, raw: dict) -> pd.DataFrame:
 
         df = pd.DataFrame([raw])
 
