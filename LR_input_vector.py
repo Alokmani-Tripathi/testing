@@ -574,7 +574,8 @@ class LRInputVector:
         if term_value not in (36, 60):
            raise ValueError("term must be 36 or 60.")
 
-        woe["term"] = WOE_DICT["term"][f"{term_value} months"]
+        #woe["term"] = WOE_DICT["term"][f"{term_value} months"]
+        woe["term"] = self.WOE_DICT["term"][f"{term_value} months"]
 
 
         # verification_status
