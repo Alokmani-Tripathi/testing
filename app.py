@@ -220,7 +220,7 @@ from LR_input_vector import LRInputVector
 from XGB_input_vector import XGBInputVector
 from LR_PD_predictor import LRPDPredictor
 from XGB_PD_predictor import XGBPDPredictor
-from pd_to_decision_engine import PDDecisionEngine
+from PD_to_decision_engine import PDDecisionEngine
 
 
 st.set_page_config(page_title="Credit Risk PD Engine", layout="wide")
