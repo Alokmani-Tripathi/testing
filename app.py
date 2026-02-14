@@ -655,67 +655,195 @@ if generate_btn:
 
         lr_decision = decision_engine.evaluate(lr_pd)
         xgb_decision = decision_engine.evaluate(xgb_pd)
-
         st.success("PD Calculation Successful")
+
+        # =====================================================
+        # COMPACT HORIZONTAL BOX STYLE
+        # =====================================================
+
+        st.markdown("""
+        <style>
+        .prediction-box {
+            border: 1px solid #d0d0d0;
+            border-radius: 8px;
+            padding: 12px 10px;
+            margin-bottom: 18px;
+        }
+
+        .prediction-row {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .prediction-item {
+            flex: 1;
+        }
+
+        .prediction-title {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .prediction-value {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .decision-badge {
+            background-color: #f4f4f4;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
 
         # =====================================================
         # LR BOX
         # =====================================================
 
-        st.markdown("## Logistic Regression Predictions")
-        cols = st.columns(4)
+        st.markdown("### Logistic Regression Prediction")
 
-        cols[0].metric("PD (%)", f"{lr_decision['pd_percent']:.2f}%")
-        cols[1].metric("Credit Score", lr_decision["credit_score"])
-        cols[2].metric("Rating Band", lr_decision["rating_band"])
-        cols[3].metric("Final Decision", lr_decision["decision"])
+        st.markdown(f"""
+        <div class="prediction-box">
+            <div class="prediction-row">
 
-        st.divider()
+                <div class="prediction-item">
+                    <div class="prediction-title">PD (%)</div>
+                    <div class="prediction-value">{lr_pd:.2f}%</div>
+                </div>
+
+                <div class="prediction-item">
+                    <div class="prediction-title">Credit Score</div>
+                    <div class="prediction-value">{int(lr_decision['score'])}</div>
+                </div>
+
+                <div class="prediction-item">
+                    <div class="prediction-title">Rating Band</div>
+                    <div class="prediction-value">{lr_decision['rating_band']}</div>
+                </div>
+
+                <div class="prediction-item">
+                    <div class="prediction-title">Final Decision</div>
+                    <div class="decision-badge">{lr_decision['decision']}</div>
+                </div>
+
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
 
         # =====================================================
         # XGB BOX
         # =====================================================
 
-        st.markdown("## XGBoost Predictions")
-        cols = st.columns(4)
+        st.markdown("### XGBoost Prediction")
 
-        cols[0].metric("PD (%)", f"{xgb_decision['pd_percent']:.2f}%")
-        cols[1].metric("Credit Score", xgb_decision["credit_score"])
-        cols[2].metric("Rating Band", xgb_decision["rating_band"])
-        cols[3].metric("Final Decision", xgb_decision["decision"])
+        st.markdown(f"""
+        <div class="prediction-box">
+            <div class="prediction-row">
 
-        st.divider()
+                <div class="prediction-item">
+                    <div class="prediction-title">PD (%)</div>
+                    <div class="prediction-value">{xgb_pd:.2f}%</div>
+                </div>
 
-        # =====================================================
-        # VERTICAL INPUT TABLES (3 COLUMN)
-        # =====================================================
+                <div class="prediction-item">
+                    <div class="prediction-title">Credit Score</div>
+                    <div class="prediction-value">{int(xgb_decision['score'])}</div>
+                </div>
 
-        col1, col2 = st.columns(2)
+                <div class="prediction-item">
+                    <div class="prediction-title">Rating Band</div>
+                    <div class="prediction-value">{xgb_decision['rating_band']}</div>
+                </div>
 
-        with col1:
-            st.subheader("📘 LR Model Input Details")
+                <div class="prediction-item">
+                    <div class="prediction-title">Final Decision</div>
+                    <div class="decision-badge">{xgb_decision['decision']}</div>
+                </div>
 
-            lr_display = pd.DataFrame({
-                "Feature": lr_vector.columns,
-                "Raw User Input": [validated_raw.get(f, None) for f in lr_vector.columns],
-                "Model Ready (WOE)": lr_vector.iloc[0].values
-            })
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-            st.dataframe(lr_display, use_container_width=True)
 
-        with col2:
-            st.subheader("📗 XGB Model Input Details")
 
-            xgb_display = pd.DataFrame({
-                "Feature": xgb_vector.columns,
-                "Raw User Input": [validated_raw.get(f, None) for f in xgb_vector.columns],
-                "Model Ready (Encoded)": xgb_vector.iloc[0].values
-            })
 
-            st.dataframe(xgb_display, use_container_width=True)
 
-    except Exception as e:
-        st.error(f"Validation / Prediction Error: {str(e)}")
+
+
+
+        
+    #     st.success("PD Calculation Successful")
+
+    #     # =====================================================
+    #     # LR BOX
+    #     # =====================================================
+
+    #     st.markdown("## Logistic Regression Predictions")
+    #     cols = st.columns(4)
+
+    #     cols[0].metric("PD (%)", f"{lr_decision['pd_percent']:.2f}%")
+    #     cols[1].metric("Credit Score", lr_decision["credit_score"])
+    #     cols[2].metric("Rating Band", lr_decision["rating_band"])
+    #     cols[3].metric("Final Decision", lr_decision["decision"])
+
+    #     st.divider()
+
+    #     # =====================================================
+    #     # XGB BOX
+    #     # =====================================================
+
+    #     st.markdown("## XGBoost Predictions")
+    #     cols = st.columns(4)
+
+    #     cols[0].metric("PD (%)", f"{xgb_decision['pd_percent']:.2f}%")
+    #     cols[1].metric("Credit Score", xgb_decision["credit_score"])
+    #     cols[2].metric("Rating Band", xgb_decision["rating_band"])
+    #     cols[3].metric("Final Decision", xgb_decision["decision"])
+
+    #     st.divider()
+
+    #     # =====================================================
+    #     # VERTICAL INPUT TABLES (3 COLUMN)
+    #     # =====================================================
+
+    #     col1, col2 = st.columns(2)
+
+    #     with col1:
+    #         st.subheader("📘 LR Model Input Details")
+
+    #         lr_display = pd.DataFrame({
+    #             "Feature": lr_vector.columns,
+    #             "Raw User Input": [validated_raw.get(f, None) for f in lr_vector.columns],
+    #             "Model Ready (WOE)": lr_vector.iloc[0].values
+    #         })
+
+    #         st.dataframe(lr_display, use_container_width=True)
+
+    #     with col2:
+    #         st.subheader("📗 XGB Model Input Details")
+
+    #         xgb_display = pd.DataFrame({
+    #             "Feature": xgb_vector.columns,
+    #             "Raw User Input": [validated_raw.get(f, None) for f in xgb_vector.columns],
+    #             "Model Ready (Encoded)": xgb_vector.iloc[0].values
+    #         })
+
+    #         st.dataframe(xgb_display, use_container_width=True)
+
+    # except Exception as e:
+    #     st.error(f"Validation / Prediction Error: {str(e)}")
+
+
+
+    
 
 
 
