@@ -647,7 +647,7 @@ if generate_btn:
         validated_raw = validate_raw_input(raw_input)
 
         lr_vector = LRInputVector().build(validated_raw)
-        xgb_vector = XGBInputVector().transform(validated_raw)
+        xgb_vector = XGBInputVector().build(validated_raw)
 
         lr_pd = lr_predictor.predict_pd_percent(lr_vector)
         xgb_pd = xgb_predictor.predict_pd_percent(xgb_vector)
